@@ -4,8 +4,9 @@ import dotenv from "dotenv";
 import { connectDatabase } from "./config/connectDb.js";
 dotenv.config({ path: "./config/config.env" });
 const PORT = process.env.PORT || 3000;
-import testRouter  from "./routes/test.js"
+import testRouter from "./routes/test.js";
 import errorHandler from "./middlewares/error.js";
+import authRouter from "./routes/auth.js";
 import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
 import userRouter from "./routes/user.js";
 
@@ -14,12 +15,13 @@ connectDatabase();
 
 export const app = express();
 
-app.use(express.json({limit: "50mb"}));
-app.use(express.urlencoded({ extended: true,  limit: "50mb" }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cors());
 
 // ─── ROUTES ─────────────────────────────────────────────────────────────────────
 app.use("/test", testRouter);
+app.use("/auth", authRouter);
 app.use("/api", userRouter);
 // app.use("/api/private", privateRouter);
 

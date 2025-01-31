@@ -1,8 +1,8 @@
 // ────────────────────────────────────────────────────────────────────────────────
 // IMPORTS
 // ────────────────────────────────────────────────────────────────────────────────
-
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 // ────────────────────────────────────────────────────────────────────────────────
 // USER SCHEMA DEFINITION
@@ -11,75 +11,139 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     // ─── USER IDENTIFICATION ──────────────────────────────────────────────────────
-    userName: {
+    username: {
       type: String,
       unique: true,
       select: false,
-      required: [true, "Username is required"],
     },
     password: {
       type: String,
       select: false,
-      required: [true, "Password is required"],
     },
 
     // ─── HOME SECTION ─────────────────────────────────────────────────────────────
     home: {
-      mainString: {
-        type: String,
-        required: [true, "Main string in home section is required"],
-      },
-      intro: {
-        type: String,
-        required: [true, "Who am I field in home section is required"],
-      },
-      banner_img: {
-        // Banner Image
-        // IMAGE
-        public_id: String,
-        url: String,
-      },
-      profile_img: {
-        // Profile Image
-        // IMAGE
-        public_id: String,
-        url: String,
-      },
-      randomBackground: {
-        type: Boolean,
-        default: true,
-      },
-      background: {
-        // Body Background Image
-        // IMAGE
-        public_id: String,
-        url: String,
+      heroImage: {
+        isRandom: {
+          type: Boolean,
+          default: true,
+        },
+        randomImage: {
+          type: String,
+          default:
+            "https://source.unsplash.com/random/?&mountains&forest&gradient&galaxy&ocean&landscape",
+        },
+
+        img: {
+          // IMAGE
+          public_id: String,
+          url: String,
+        },
       },
 
-      // background_color: {
-      //   // Body Background Color
-      //   type: String,
-      //   default: "#ffffff",
-      //   required: [true, "Background color in home section is required"],
-      // },
+      profileImage: {
+        img: {
+          // IMAGE
+          public_id: String,
+          url: String,
+        },
+        style: {
+          scale: {
+            type: Number,
+            default: 2.4,
+          },
+          transform: {
+            type: String,
+            default: "center 10px",
+          },
+        },
+      },
+
+      heroTitle: {
+        intro: {
+          type: String,
+          default: "Hi, I'm",
+        },
+        name: {
+          type: String,
+          default: "Yugam.",
+        },
+      },
+
+      heroSubtitle: {
+        subTitle: {
+          type: String,
+          default: "And i am a,",
+        },
+        sheryConfig: {
+          style: {
+            type: Number,
+            default: 1,
+          },
+          y: {
+            type: Number,
+            default: 10,
+          },
+          delay: {
+            type: Number,
+            default: 0.2,
+          },
+          duration: {
+            type: Number,
+            default: 0.3,
+          },
+          ease: {
+            type: String,
+            default: "ease",
+          },
+          multiplier: {
+            type: Number,
+            default: 0.1,
+          },
+        },
+      },
+
+      socialLinks: [
+        {
+          name: {
+            type: String,
+            required: [true, "Social link name is required"],
+          },
+          url: {
+            type: String,
+            required: [true, "Social link URL is required"],
+          },
+          iconClass: {
+            type: String,
+            required: [true, "Social icon class is required"],
+          },
+        },
+      ],
 
       typewriter: [
         {
-          // Typewriter Texts
           type: String,
-          required: [true, "Typewriter text in home section is required"],
         },
       ],
+
+      button: {
+        name: {
+          type: String,
+        },
+        url: {
+          type: String,
+        },
+      },
     },
 
-    // ─── ABOUT SECTION ────────────────────────────────────────────────────────────
+    // ───ABOUT SECTION ─────────────────────────────────────────────────────
     about: {
-      aboutImage: {
+      frontPhoto: {
         // IMAGE
         public_id: String,
         url: String,
       },
-      aboutImageBack: {
+      backPhoto: {
         // IMAGE
         public_id: String,
         url: String,
@@ -96,98 +160,152 @@ const userSchema = new mongoose.Schema(
       },
       textP1: {
         type: String,
-        required: [true, "First paragraph text in about section is required"],
-        default: "",
+        default:
+          "Hello, I'm Yugam, a MERN,Full Stack and Flutter Developer. I merge technical expertise with effective communication and problem-solving skills to deliver outstanding projects with impressive presentation",
       },
       textP2: {
         type: String,
-        required: [true, "Second paragraph text in about section is required"],
-        default: "",
+        default:
+          "As a Computer Science student at the University of Manitoba, my passion for technology drives me. Committed to continuous learning, I embrace the dynamic tech industry, eager to contribute and collaborate",
       },
     },
 
     // ─── MODERN ABOUT SECTION ─────────────────────────────────────────────────────
     modernAbout: {
-      page: {
-        pageName: {
-          type: String,
-          required: [true, "Page name in modern about section is required"],
-          default: "I'm Yugam Patel",
-        },
-        caption: {
-          type: String,
-          required: [true, "Caption in modern about section is required"],
-          default: "Explore More !",
-        },
+      title: {
+        type: String,
+        default: "I'm Yugam Patel",
       },
-      card: {
-        name: {
-          type: String,
-          required: [true, "Name in modern about card is required"],
-          default: "Yugam Patel",
-        },
-        age: {
-          type: Number,
-          required: [true, "Age in modern about card is required"],
-          default: 20,
-        },
-        aboutText: {
-          type: String,
-          required: [true, "About text in modern about card is required"],
-        },
-        profession: {
-          type: String,
-          default: "",
-        },
-        topSkills: [{ type: String }],
-        moreSkills: [
-          {
-            header: { type: String },
-            skills: [{ type: String }],
+      subTitle: {
+        type: String,
+        default: "Explore More !",
+      },
+      info: [
+        {
+          var: {
+            type: String,
+            required: [true, "var is modern about section is required"],
           },
-        ],
-      },
+          char: {
+            type: String,
+            required: [true, "char is modern about section is required"],
+          },
+          str: {
+            type: String,
+            required: [true, "str is modern about section is required"],
+          },
+        },
+      ],
     },
 
     // ─── EDUCATION AND WORK TIMELINES ─────────────────────────────────────────────
     educationTimeline: [
       {
-        startDate: Date,
-        endDate: Date,
+        date: String,
         title: String,
         description: String,
       },
     ],
     workTimeline: [
       {
-        startDate: Date,
-        endDate: Date,
+        date: String,
         title: String,
         description: String,
+        mobileDec: String,
+        isNotice: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
 
     // ─── SKILLS ───────────────────────────────────────────────────────────────────
-    skillsone: [
+    skillsOne: [
       {
         type: String,
       },
     ],
-    skillstwo: [
+    skillsTwo: [
       {
         type: String,
       },
     ],
-    skillsthree: [
+    softSkills: [
       {
         type: String,
       },
     ],
+    // ─── Contact ───────────────────────────────────────────────────────────────────
+
+    contact: {
+      heading: String,
+      contactInfo: {
+        email: String,
+        phone: String,
+      },
+      scriptURL: {
+        type: String,
+      },
+      socialLinks: [
+        {
+          name: {
+            type: String,
+            required: [true, "Social link name is required"],
+          },
+          url: {
+            type: String,
+            required: [true, "Social link URL is required"],
+          },
+          iconClass: {
+            type: String,
+            required: [true, "Social icon class is required"],
+          },
+        },
+      ],
+      button: {
+        text: {
+          type: String,
+        },
+        url: {
+          type: String,
+        },
+      },
+      sendButton: {
+        text: String,
+        onClick: String,
+        failureMessage: String,
+        successMessage: String,
+      },
+      curseWordsLangs: [
+        {
+          type: String,
+        },
+      ],
+      successMessage: String,
+      failureMessage: String,
+      inappropriateMessage: String,
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt timestamps
   }
 );
+
+// Anything you want to run or change before the creation or saving of the user model will be managed by the line below.
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  } else {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  }
+});
+
+userSchema.methods.matchPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 // ────────────────────────────────────────────────────────────────────────────────
 // MODEL EXPORT
