@@ -11,284 +11,128 @@ import bcrypt from "bcrypt";
 const userSchema = new mongoose.Schema(
   {
     // ─── USER IDENTIFICATION ──────────────────────────────────────────────────────
-    username: {
-      type: String,
-      unique: true,
-      select: false,
-    },
-    password: {
-      type: String,
-      select: false,
-    },
+    username: { type: String, unique: true, required: true, select: false },
+    password: { type: String, required: true, select: false },
 
-    // ─── HOME SECTION ─────────────────────────────────────────────────────────────
-    home: {
+    // ─── HERO SECTION ─────────────────────────────────────────────────────────────
+    hero: {
       heroImage: {
-        isRandom: {
-          type: Boolean,
-          default: true,
-        },
-        randomImage: {
+        isRandom: { type: Boolean, default: false },
+        randomImg: {
           type: String,
           default:
             "https://source.unsplash.com/random/?&mountains&forest&gradient&galaxy&ocean&landscape",
         },
-
         img: {
-          // IMAGE
-          public_id: String,
-          url: String,
+          type: String,
+          default:
+            "https://images.unsplash.com/photo-1496450681664-3df85efbd29f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         },
       },
-
       profileImage: {
         img: {
-          // IMAGE
-          public_id: String,
-          url: String,
+          type: String,
+          default:
+            "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
         },
         style: {
-          scale: {
-            type: Number,
-            default: 2.4,
-          },
-          transform: {
-            type: String,
-            default: "center 10px",
-          },
+          transform: { type: String },
+          objectPosition: { type: String },
         },
       },
-
       heroTitle: {
-        intro: {
-          type: String,
-          default: "Hi, I'm",
-        },
-        name: {
-          type: String,
-          default: "Yugam.",
-        },
+        intro: { type: String },
+        name: { type: String },
       },
-
-      heroSubtitle: {
-        subTitle: {
-          type: String,
-          default: "And i am a,",
-        },
-        sheryConfig: {
-          style: {
-            type: Number,
-            default: 1,
-          },
-          y: {
-            type: Number,
-            default: 10,
-          },
-          delay: {
-            type: Number,
-            default: 0.2,
-          },
-          duration: {
-            type: Number,
-            default: 0.3,
-          },
-          ease: {
-            type: String,
-            default: "ease",
-          },
-          multiplier: {
-            type: Number,
-            default: 0.1,
-          },
-        },
-      },
-
+      heroSubTitle: { subTitle: { type: String } },
       socialLinks: [
         {
-          name: {
-            type: String,
-            required: [true, "Social link name is required"],
-          },
-          url: {
-            type: String,
-            required: [true, "Social link URL is required"],
-          },
-          iconClass: {
-            type: String,
-            required: [true, "Social icon class is required"],
-          },
+          name: { type: String, required: true },
+          url: { type: String, required: true },
+          iconClass: { type: String, required: true },
         },
       ],
-
-      typewriter: [
-        {
-          type: String,
-        },
-      ],
-
+      typewriter: [{ type: String }],
       button: {
-        name: {
-          type: String,
-        },
+        name: { type: String },
         url: {
           type: String,
+          default:
+            "https://drive.google.com/file/d/1KKZr2A57vq246mbtlaWcooCoVDqyiRtK/view?usp=sharing",
         },
       },
     },
 
-    // ───ABOUT SECTION ─────────────────────────────────────────────────────
+    // ─── ABOUT SECTION ─────────────────────────────────────────────────────
     about: {
       frontPhoto: {
-        // IMAGE
-        public_id: String,
-        url: String,
+        type: String,
+        default:
+          "https://res.cloudinary.com/dwig4hupj/image/upload/v1707072392/portfolio/about/aboutImage/o6j5ehbsxha1bparz8cz.jpg",
       },
       backPhoto: {
-        // IMAGE
-        public_id: String,
-        url: String,
+        type: String,
+        default:
+          "https://res.cloudinary.com/dwig4hupj/image/upload/v1707097539/portfolio/about/vhtose4jdeupelcqnrd1.jpg",
       },
       logo: {
-        // IMAGE
-        public_id: String,
-        url: String,
+        type: String,
+        default:
+          "https://res.cloudinary.com/dwig4hupj/image/upload/v1707071310/wrtlzo9obttluvozjmf0.png",
       },
       mobileLogo: {
-        // IMAGE
-        public_id: String,
-        url: String,
-      },
-      textP1: {
         type: String,
         default:
-          "Hello, I'm Yugam, a MERN,Full Stack and Flutter Developer. I merge technical expertise with effective communication and problem-solving skills to deliver outstanding projects with impressive presentation",
+          "https://res.cloudinary.com/dwig4hupj/image/upload/v1707071310/uawcp9hroyofui2umbdb.png",
       },
-      textP2: {
-        type: String,
-        default:
-          "As a Computer Science student at the University of Manitoba, my passion for technology drives me. Committed to continuous learning, I embrace the dynamic tech industry, eager to contribute and collaborate",
-      },
-    },
-
-    // ─── MODERN ABOUT SECTION ─────────────────────────────────────────────────────
-    modernAbout: {
-      title: {
-        type: String,
-        default: "I'm Yugam Patel",
-      },
-      subTitle: {
-        type: String,
-        default: "Explore More !",
-      },
-      info: [
-        {
-          var: {
-            type: String,
-            required: [true, "var is modern about section is required"],
-          },
-          char: {
-            type: String,
-            required: [true, "char is modern about section is required"],
-          },
-          str: {
-            type: String,
-            required: [true, "str is modern about section is required"],
-          },
-        },
-      ],
+      textP1: { type: String, required: true },
+      textP2: { type: String, required: true },
     },
 
     // ─── EDUCATION AND WORK TIMELINES ─────────────────────────────────────────────
-    educationTimeline: [
+    education: [
       {
-        date: String,
-        title: String,
-        description: String,
+        name: { type: String, required: true },
+        date: { type: String, required: true },
+        desc: { type: String, required: true },
       },
     ],
-    workTimeline: [
+    work: [
       {
-        date: String,
-        title: String,
-        description: String,
-        mobileDec: String,
-        isNotice: {
-          type: Boolean,
-          default: false,
-        },
+        name: { type: String, required: true },
+        date: { type: String, required: true },
+        desc: { type: String, required: true },
+        mobileDec: { type: String },
+        isNotice: { type: Boolean, default: false },
       },
     ],
 
     // ─── SKILLS ───────────────────────────────────────────────────────────────────
-    skillsOne: [
-      {
-        type: String,
-      },
-    ],
-    skillsTwo: [
-      {
-        type: String,
-      },
-    ],
-    softSkills: [
-      {
-        type: String,
-      },
-    ],
-    // ─── Contact ───────────────────────────────────────────────────────────────────
+    skillsOne: [{ type: String }],
+    skillsTwo: [{ type: String }],
+    softSkills: [{ type: String }],
 
+    // ─── CONTACT SECTION ──────────────────────────────────────────────────────────
     contact: {
-      heading: String,
+      heading: { type: String, required: true },
       contactInfo: {
-        email: String,
-        phone: String,
-      },
-      scriptURL: {
-        type: String,
+        email: { type: String, required: true },
+        phone: { type: String, required: true },
       },
       socialLinks: [
         {
-          name: {
-            type: String,
-            required: [true, "Social link name is required"],
-          },
-          url: {
-            type: String,
-            required: [true, "Social link URL is required"],
-          },
-          iconClass: {
-            type: String,
-            required: [true, "Social icon class is required"],
-          },
+          name: { type: String, required: true },
+          url: { type: String, required: true },
+          iconClass: { type: String, required: true },
         },
       ],
       button: {
-        text: {
-          type: String,
-        },
-        url: {
-          type: String,
-        },
+        text: { type: String },
+        url: { type: String },
       },
-      sendButton: {
-        text: String,
-        onClick: String,
-        failureMessage: String,
-        successMessage: String,
-      },
-      curseWordsLangs: [
-        {
-          type: String,
-        },
-      ],
-      successMessage: String,
-      failureMessage: String,
-      inappropriateMessage: String,
     },
   },
-  {
-    timestamps: true, // Adds createdAt and updatedAt timestamps
-  }
+  { timestamps: true }
 );
 
 // Anything you want to run or change before the creation or saving of the user model will be managed by the line below.

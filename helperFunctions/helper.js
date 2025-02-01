@@ -19,7 +19,7 @@ export const uploadImageToCloudinary = async (userField, imagePath, folderPath) 
   
   export const response = (res, statusCode, message, success = true, output) => {
     if (!success) {
-      return res.status(statusCode).json({ success, message });
+      return res.status(statusCode).json({ success, message, output });
     }
     return res.status(statusCode).json({ success, message, output });
   };

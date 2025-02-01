@@ -9,6 +9,8 @@ import errorHandler from "./middlewares/error.js";
 import authRouter from "./routes/auth.js";
 import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
 import userRouter from "./routes/user.js";
+import heroRouter from "./routes/hero.js";
+import { seedData } from "./initData/seed.js";
 
 cloudinaryConfig();
 connectDatabase();
@@ -19,15 +21,17 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cors());
 
+app.listen(PORT, () =>
+  console.log(`server Running on Port: http://localhost:${PORT}`)
+);
+
 // ─── ROUTES ─────────────────────────────────────────────────────────────────────
 app.use("/test", testRouter);
 app.use("/auth", authRouter);
 app.use("/api", userRouter);
-// app.use("/api/private", privateRouter);
+app.use("/api/user/hero", heroRouter);
 
-app.listen(PORT, () =>
-  console.log(`server Running on Port: http://localhost:${PORT}`)
-);
+// seedData();
 
 // ─── GLOBAL ERROR HANDLER ───────────────────────────────────────────────────────
 app.use(errorHandler);
