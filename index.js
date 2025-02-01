@@ -10,6 +10,7 @@ import authRouter from "./routes/auth.js";
 import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
 import userRouter from "./routes/user.js";
 import heroRouter from "./routes/hero.js";
+import aboutRouter from "./routes/about.js";
 import { seedData } from "./initData/seed.js";
 
 cloudinaryConfig();
@@ -30,6 +31,7 @@ app.use("/test", testRouter);
 app.use("/auth", authRouter);
 app.use("/api", userRouter);
 app.use("/api/user/hero", heroRouter);
+app.use("/api/user/about", aboutRouter);
 
 // seedData();
 

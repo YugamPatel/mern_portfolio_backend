@@ -9,7 +9,7 @@ import {
   resetSocialLinks,
   resetTypewriter,
   resetButton,
-} from "../controllers/heroControllers.js";
+} from "../controllers/heroController.js";
 
 router.route("/").get(getHero);
 router.route("/").put(updateHero);
