@@ -6,7 +6,7 @@ export const protect = async (req, res, next) => {
   try {
     const token = req.cookies.authToken; // Get token from cookies
 
-    if (!token) return response(res, 401, "Unauthorized access", false);
+    if (!token) return response(res, 401, "Unauthorized access,No Auth-token found", false);
 
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
