@@ -9,7 +9,13 @@ export const getEducation = async (req, res) => {
     const user = await User.findOne().select("education");
     if (!user) return response(res, 404, "User not found", false);
 
-    response(res, 200, "Education data retrieved successfully", true, user.education);
+    response(
+      res,
+      200,
+      "Education data retrieved successfully",
+      true,
+      user.education
+    );
   } catch (error) {
     response(res, 500, "Server error", false, error.message);
   }
@@ -21,11 +27,22 @@ export const getEducation = async (req, res) => {
 export const updateEducation = async (req, res) => {
   try {
     const { education } = req.body;
-    if (!Array.isArray(education)) return response(res, 400, "Invalid education format", false);
+    if (!Array.isArray(education))
+      return response(res, 400, "Invalid education format", false);
 
-    const updatedUser = await User.findOneAndUpdate({}, { education }, { new: true });
+    const updatedUser = await User.findOneAndUpdate(
+      {},
+      { education },
+      { new: true }
+    );
 
-    response(res, 200, "Education updated successfully", true, updatedUser.education);
+    response(
+      res,
+      200,
+      "Education updated successfully",
+      true,
+      updatedUser.education
+    );
   } catch (error) {
     response(res, 500, "Server error", false, error.message);
   }
@@ -37,7 +54,8 @@ export const updateEducation = async (req, res) => {
 export const addEducationTop = async (req, res) => {
   try {
     const { name, date, desc } = req.body;
-    if (!name || !date || !desc) return response(res, 400, "Missing education fields", false);
+    if (!name || !date || !desc)
+      return response(res, 400, "Missing education fields", false);
 
     const updatedUser = await User.findOneAndUpdate(
       {},
@@ -45,7 +63,13 @@ export const addEducationTop = async (req, res) => {
       { new: true }
     );
 
-    response(res, 201, "Education added at the top successfully", true, updatedUser.education);
+    response(
+      res,
+      201,
+      "Education added at the top successfully",
+      true,
+      updatedUser.education
+    );
   } catch (error) {
     response(res, 500, "Server error", false, error.message);
   }
@@ -57,7 +81,8 @@ export const addEducationTop = async (req, res) => {
 export const addEducationAtIndex = async (req, res) => {
   try {
     const { index, name, date, desc } = req.body;
-    if (index < 0 || !name || !date || !desc) return response(res, 400, "Invalid input", false);
+    if (index < 0 || !name || !date || !desc)
+      return response(res, 400, "Invalid input", false);
 
     const user = await User.findOne();
     if (!user) return response(res, 404, "User not found", false);
@@ -66,7 +91,13 @@ export const addEducationAtIndex = async (req, res) => {
     user.education.splice(index, 0, newEducation); // Insert at the given index
     await user.save();
 
-    response(res, 201, "Education added at the specified index", true, user.education);
+    response(
+      res,
+      201,
+      "Education added at the specified index",
+      true,
+      user.education
+    );
   } catch (error) {
     response(res, 500, "Server error", false, error.message);
   }
@@ -117,6 +148,47 @@ export const updateEducationAtIndex = async (req, res) => {
     await user.save();
 
     response(res, 200, "Education entry updated", true, user.education);
+  } catch (error) {
+    response(res, 500, "Server error", false, error.message);
+  }
+};
+
+export const resetEducation = async (req, res) => {
+  try {
+    // Define the default education array
+    const defaultEducation = [
+      {
+        name: "University of Manitoba",
+        date: "2022 - Present",
+        desc: "I am a Computer Science student enrolled in the co-op program at the University of Manitoba, where my passion for technology continues to grow. Eager and committed to expanding my knowledge and skills in the tech environment, I am constantly seeking opportunities to learn, develop, and apply my expertise in real-world settings.",
+      },
+      {
+        name: "Green Valley High School",
+        date: "2019 - 2021",
+        desc: "Achieved my high school degree from Green Valley High School, excelling in Physics, Chemistry, and Maths. This rigorous academic journey allowed my analytical and problem-solving skills, laying a strong foundation in these core subjects.",
+      },
+      {
+        name: "Bharatiya Vidya Bhavan's",
+        date: "2009 - 2019",
+        desc: "During my schooling up to the 10th grade at Bharatiya Vidya Bhavan's, I explored a wide range of subjects, including Physics, Chemistry, and Maths. This period was marked by a broad exploration of knowledge, allowing me to uncover my interests and strengths across different disciplines.",
+      },
+    ];
+
+    // Update the user's education field with the default values
+    const updatedUser = await User.findOneAndUpdate(
+      {},
+      { education: defaultEducation },
+      { new: true }
+    );
+
+    // Send a success response with the updated education data
+    response(
+      res,
+      200,
+      "Education reset to default",
+      true,
+      updatedUser.education
+    );
   } catch (error) {
     response(res, 500, "Server error", false, error.message);
   }
