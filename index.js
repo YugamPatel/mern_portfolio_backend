@@ -11,6 +11,7 @@ import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
 import userRouter from "./routes/user.js";
 import heroRouter from "./routes/hero.js";
 import aboutRouter from "./routes/about.js";
+import modernAboutRouter from "./routes/modernAbout.js";
 import educationRouter from "./routes/education.js";
 import workRouter from "./routes/work.js";
 // import { seedData } from "./initData/seed.js";
@@ -41,6 +42,7 @@ app.use("/auth", authRouter);
 app.use("/api", userRouter);
 app.use("/api/user/hero", heroRouter);
 app.use("/api/user/about", aboutRouter);
+app.use("/api/user/modern-about", modernAboutRouter);
 app.use("/api/user/education", educationRouter);
 app.use("/api/user/work", workRouter);
 

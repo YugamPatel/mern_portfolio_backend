@@ -89,6 +89,18 @@ const userSchema = new mongoose.Schema(
       textP2: { type: String, required: true },
     },
 
+    // ─── MODERN ABOUT SECTION ─────────────────────────────────────────────────────
+    modernAbout: {
+      title: { type: String, required: true },
+      subTitle: { type: String, required: true },
+      info: [
+        {
+          var: { type: String, required: true },
+          char: { type: String, required: true },
+          str: { type: String, required: true },
+        },
+      ],
+    },
     // ─── EDUCATION AND WORK TIMELINES ─────────────────────────────────────────────
     education: [
       {
@@ -97,7 +109,7 @@ const userSchema = new mongoose.Schema(
         desc: { type: String, required: true },
       },
     ],
-    
+
     work: [
       {
         name: { type: String, required: true },
@@ -133,7 +145,7 @@ const userSchema = new mongoose.Schema(
       },
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 // Anything you want to run or change before the creation or saving of the user model will be managed by the line below.
