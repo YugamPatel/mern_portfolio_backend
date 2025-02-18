@@ -26,8 +26,8 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 // CORS Configuration
 const corsOptions = {
-  origin: "http://localhost:5173", // Allow requests from frontend
-  credentials: true, // Enable credentials (cookies, authorization headers, etc.)
+  origin: "https://yugamazing.com",
+  credentials: true, 
 };
 
 app.use(cors(corsOptions));
