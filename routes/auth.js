@@ -7,12 +7,13 @@ import {
   loginUser,
   logoutUser,
   updatePassword,
-  resetPassword,
+  verifyUser,
 } from "../controllers/authController.js";
 
+router.route("/verify").get(protect, verifyUser); 
 router.route("/login").post(loginUser);
 router.route("/logout").post(logoutUser);
 router.route("/update-password").put(protect, updatePassword); // Requires authentication
-router.route("/reset-password").patch(protect, resetPassword); // Requires authentication
+
 
 export default router;

@@ -14,6 +14,7 @@ import aboutRouter from "./routes/about.js";
 import modernAboutRouter from "./routes/modernAbout.js";
 import educationRouter from "./routes/education.js";
 import workRouter from "./routes/work.js";
+import cookieParser from "cookie-parser";
 // import { seedData } from "./initData/seed.js";
 
 cloudinaryConfig();
@@ -24,10 +25,12 @@ export const app = express();
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
+app.use(cookieParser());
+
 // CORS Configuration
 const corsOptions = {
-  origin: "https://yugamazing.com",
-  credentials: true, 
+  origin: "http://localhost:5173",
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
