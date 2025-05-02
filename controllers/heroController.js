@@ -1,5 +1,6 @@
 import { response } from "../helperFunctions/helper.js";
 import { User } from "../models/User.js";
+import { v2 as cloudinary } from "cloudinary";
 
 // ────────────────────────────────────────────────────────────────────────────────
 // 1️⃣ GET HERO SECTION DATA
@@ -21,6 +22,20 @@ export const getHero = async (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 export const updateHero = async (req, res) => {
   try {
+    // 1) Load your single user
+    const user = await User.findOne();
+    if (!user) {
+      return response(res, 404, "User not found", false);
+    }
+
+    // 2) If the admin uploaded a new profileImage, delete the old one
+    const incomingPI = req.body.profileImage?.img;
+    const oldPI      = user.hero?.profileImage?.img?.public_id;
+    if (incomingPI?.public_id && oldPI && incomingPI.public_id !== oldPI) {
+      await cloudinary.uploader.destroy(oldPI);
+    }
+
+    // 3) Whitelist fields and build the $set map
     const ALLOWED = [
       "heroImage",
       "profileImage",
@@ -34,6 +49,7 @@ export const updateHero = async (req, res) => {
     const updatedFields = {};
     Object.keys(req.body).forEach((key) => {
       if (ALLOWED.includes(key)) {
+        // maps e.g. "profileImage" → "hero.profileImage"
         updatedFields[`hero.${key}`] = req.body[key];
       }
     });
@@ -42,13 +58,15 @@ export const updateHero = async (req, res) => {
       return response(res, 400, "No valid fields to update", false);
     }
 
+    // 4) Apply the updates
     const updatedUser = await User.findOneAndUpdate(
-      {},
-      { $set: updatedFields },
+      {},                       // your single user
+      { $set: updatedFields },  
       { new: true, runValidators: true }
     );
 
-    response(
+    // 5) Return the fresh hero object
+    return response(
       res,
       200,
       "Hero section updated successfully",
@@ -56,9 +74,8 @@ export const updateHero = async (req, res) => {
       updatedUser.hero
     );
   } catch (error) {
-    // log server‐side
     console.error("updateHero error:", error);
-    response(res, 500, "Server error", false, error.message);
+    return response(res, 500, "Server error", false, error.message);
   }
 };
 

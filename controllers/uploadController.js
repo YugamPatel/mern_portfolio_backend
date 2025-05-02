@@ -22,47 +22,21 @@ export const uploadProfileImage = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne();
-    if (!user) return response(res, 404, "User not found", false);
-
-    // ensure nested objects exist
-    if (!user.hero) user.hero = {};
-    if (!user.hero.profileImage) user.hero.profileImage = { img: {}, style: {} };
-
-    // delete old image if present
-    const oldId = user.hero.profileImage.img.public_id;
-    if (oldId) {
-      await cloudinary.uploader.destroy(oldId);
-    }
-
-    // upload new image
     const uploadStream = cloudinary.uploader.upload_stream(
       { folder: "portfolio/profile" },
-      async (err, result) => {
+      (err, result) => {
         if (err) {
           console.error("Cloudinary upload error:", err);
           return response(res, 500, "Upload failed", false, err);
         }
-
-        // save the new public_id & url under user.hero.profileImage.img
-        user.hero.profileImage.img = {
+        // **no DB touches here**
+        return response(res, 200, "Upload successful", true, {
           public_id: result.public_id,
           url:       result.secure_url,
-        };
-
-        await user.save();
-
-        return response(
-          res,
-          200,
-          "Profile image updated",
-          true,
-          user.hero.profileImage.img
-        );
+        });
       }
     );
 
-    // pipe the buffer into Cloudinary
     streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
   } catch (error) {
     console.error("uploadProfileImage error:", error);
