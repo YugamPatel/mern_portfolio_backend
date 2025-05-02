@@ -24,19 +24,19 @@ const userSchema = new mongoose.Schema(
             "https://source.unsplash.com/random/?&mountains&forest&gradient&galaxy&ocean&landscape",
         },
         img: {
-          public_id: { type: String, default: "img2_wfcmtu" },
+          type: String,
+          default:
+            "https://images.unsplash.com/photo-1496450681664-3df85efbd29f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        },
+      },
+      profileImage: {
+        img: {
+          public_id: { type: String, default: "img" },
           url: {
             type: String,
             default:
               "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
           },
-        },
-      },
-      profileImage: {
-        img: {
-          type: String,
-          default:
-            "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
         },
         style: {
           transform: { type: String },
