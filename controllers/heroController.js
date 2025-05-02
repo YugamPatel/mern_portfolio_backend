@@ -24,30 +24,41 @@ export const getHero = async (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 export const updateHero = async (req, res) => {
   try {
-    const updatedFields = {};
+    const ALLOWED = [
+      "heroImage",
+      "profileImage",
+      "heroTitle",
+      "heroSubTitle",
+      "socialLinks",
+      "typewriter",
+      "button",
+    ];
 
-    // Add only the fields that exist in the request body
+    const updatedFields = {};
     Object.keys(req.body).forEach((key) => {
-      updatedFields[`hero.${key}`] = req.body[key];
+      if (ALLOWED.includes(key)) {
+        updatedFields[`hero.${key}`] = req.body[key];
+      }
     });
 
+    if (!Object.keys(updatedFields).length) {
+      return response(res, 400, "No valid fields to update", false);
+    }
+
     const updatedUser = await User.findOneAndUpdate(
-      {},
+      {}, 
       { $set: updatedFields },
-      { new: true, upsert: true }
+      { new: true, runValidators: true }
     );
 
-    response(
-      res,
-      200,
-      "Hero section updated successfully",
-      true,
-      updatedUser.hero
-    );
+    response(res, 200, "Hero section updated successfully", true, updatedUser.hero);
   } catch (error) {
+    // log server‐side
+    console.error("updateHero error:", error);
     response(res, 500, "Server error", false, error.message);
   }
 };
+
 
 // ────────────────────────────────────────────────────────────────────────────────
 // 3️⃣ RESET HERO SECTION TO DEFAULT
