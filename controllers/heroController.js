@@ -1,7 +1,4 @@
-import {
-  response,
-  uploadImageToCloudinary,
-} from "../helperFunctions/helper.js";
+import { response } from "../helperFunctions/helper.js";
 import { User } from "../models/User.js";
 
 // ────────────────────────────────────────────────────────────────────────────────
@@ -46,19 +43,24 @@ export const updateHero = async (req, res) => {
     }
 
     const updatedUser = await User.findOneAndUpdate(
-      {}, 
+      {},
       { $set: updatedFields },
       { new: true, runValidators: true }
     );
 
-    response(res, 200, "Hero section updated successfully", true, updatedUser.hero);
+    response(
+      res,
+      200,
+      "Hero section updated successfully",
+      true,
+      updatedUser.hero
+    );
   } catch (error) {
     // log server‐side
     console.error("updateHero error:", error);
     response(res, 500, "Server error", false, error.message);
   }
 };
-
 
 // ────────────────────────────────────────────────────────────────────────────────
 // 3️⃣ RESET HERO SECTION TO DEFAULT
@@ -73,7 +75,10 @@ export const resetHero = async (req, res) => {
         img: "https://images.unsplash.com/photo-1496450681664-3df85efbd29f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       profileImage: {
-        img: "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
+        img: {
+          url: "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
+          public_id: "img2_wfcmtu",
+        },
         style: {
           transform: "scale(2.8)",
           objectPosition: "0px 10px",
@@ -133,7 +138,6 @@ export const resetHero = async (req, res) => {
     response(res, 500, "Server error", false, error.message);
   }
 };
-
 
 // ────────────────────────────────────────────────────────────────────────────────
 // RESET SUBSECTIONS OF HERO SECTION

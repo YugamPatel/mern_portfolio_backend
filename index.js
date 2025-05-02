@@ -2,22 +2,22 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectDatabase } from "./config/connectDb.js";
-dotenv.config({ path: "./config/config.env" });
-const PORT = process.env.PORT || 3000;
 import testRouter from "./routes/test.js";
 import errorHandler from "./middlewares/error.js";
 import authRouter from "./routes/auth.js";
-import { cloudinaryConfig } from "./config/cloudinaryConfig.js";
 import userRouter from "./routes/user.js";
 import heroRouter from "./routes/hero.js";
 import aboutRouter from "./routes/about.js";
+import uploadRouter from "./routes/uploadRoutes.js";
 import modernAboutRouter from "./routes/modernAbout.js";
 import educationRouter from "./routes/education.js";
 import workRouter from "./routes/work.js";
 import cookieParser from "cookie-parser";
 // import { seedData } from "./initData/seed.js";
 
-cloudinaryConfig();
+// ─── CONFIGURATION ──────────────────────────────────────────────────────────────
+dotenv.config({ path: "./config/config.env" });
+const PORT = process.env.PORT || 3000;
 connectDatabase();
 
 export const app = express();
@@ -43,6 +43,7 @@ app.listen(PORT, () =>
 app.use("/test", testRouter);
 app.use("/auth", authRouter);
 app.use("/api", userRouter);
+app.use("/api/upload", uploadRouter);
 app.use("/api/user/hero", heroRouter);
 app.use("/api/user/about", aboutRouter);
 app.use("/api/user/modern-about", modernAboutRouter);

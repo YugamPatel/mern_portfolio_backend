@@ -31,9 +31,12 @@ const userSchema = new mongoose.Schema(
       },
       profileImage: {
         img: {
-          type: String,
-          default:
-            "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
+          public_id: { type: String, default: "img2_wfcmtu" },
+          url: {
+            type: String,
+            default:
+              "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
+          },
         },
         style: {
           transform: { type: String },

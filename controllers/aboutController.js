@@ -1,6 +1,5 @@
 import {
-  uploadImageToCloudinary,
-  response,
+  response
 } from "../helperFunctions/helper.js";
 import { User } from "../models/User.js";
 
