@@ -93,8 +93,8 @@ export const resetHero = async (req, res) => {
       },
       profileImage: {
         img: {
+          public_id: "img",
           url: "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
-          public_id: "img2_wfcmtu",
         },
         style: {
           transform: "scale(2.8)",

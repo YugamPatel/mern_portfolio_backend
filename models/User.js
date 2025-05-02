@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
       },
       profileImage: {
         img: {
-          public_id: { type: String, default: "img2_wfcmtu" },
+          public_id: { type: String, default: "img" },
           url: {
             type: String,
             default:
