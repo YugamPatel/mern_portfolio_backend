@@ -62,7 +62,10 @@ export const resetHero = async (req, res) => {
         img: "https://images.unsplash.com/photo-1496450681664-3df85efbd29f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       profileImage: {
-        img: "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
+        img: {
+          url: "https://res.cloudinary.com/dwig4hupj/image/upload/v1736968666/img2_wfcmtu.jpg",
+          public_id: "img2_wfcmtu",
+        },
         style: {
           transform: "scale(2.8)",
           objectPosition: "0px 10px",
