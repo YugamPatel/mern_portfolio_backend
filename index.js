@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import morgan from "morgan";
 import { connectDatabase } from "./config/connectDb.js";
 import testRouter from "./routes/test.js";
 import errorHandler from "./middlewares/error.js";
@@ -23,6 +24,7 @@ connectDatabase();
 export const app = express();
 
 app.use(express.json({ limit: "50mb" }));
+app.use(morgan("common"));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 app.use(cookieParser());

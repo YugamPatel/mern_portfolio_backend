@@ -29,7 +29,6 @@ export const uploadProfileImage = async (req, res) => {
           console.error("Cloudinary upload error:", err);
           return response(res, 500, "Upload failed", false, err);
         }
-        // **no DB touches here**
         return response(res, 200, "Upload successful", true, {
           public_id: result.public_id,
           url:       result.secure_url,

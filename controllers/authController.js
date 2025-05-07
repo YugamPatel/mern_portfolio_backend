@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 // ────────────────────────────────────────────────────────────────────────────────
-// 1️⃣ USER LOGIN - Sets an authentication cookie
+// USER LOGIN - Sets an authentication cookie
 // ────────────────────────────────────────────────────────────────────────────────
 export const loginUser = async (req, res) => {
   try {
@@ -46,7 +46,7 @@ export const loginUser = async (req, res) => {
 };
 
 // ────────────────────────────────────────────────────────────────────────────────
-// 2️⃣ USER LOGOUT - Clears the authentication cookie
+// USER LOGOUT - Clears the authentication cookie
 // ────────────────────────────────────────────────────────────────────────────────
 export const logoutUser = async (req, res) => {
   try {
@@ -63,7 +63,7 @@ export const logoutUser = async (req, res) => {
 };
 
 // ────────────────────────────────────────────────────────────────────────────────
-// 3️⃣ UPDATE PASSWORD - Requires current password for verification
+// UPDATE PASSWORD - Requires current password for verification
 // ────────────────────────────────────────────────────────────────────────────────
 export const updatePassword = async (req, res) => {
   try {
@@ -90,7 +90,7 @@ export const updatePassword = async (req, res) => {
 };
 
 // ────────────────────────────────────────────────────────────────────────────────
-// 4️⃣ Verify  
+// Verify  
 // ────────────────────────────────────────────────────────────────────────────────
 
 export const verifyUser = async (req, res) => {
